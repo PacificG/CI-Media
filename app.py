@@ -4,7 +4,7 @@ import numpy as np
 import re
 import os
 import base64
-from openai.embeddings_utils import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity
 import cohere
 import time 
 from ast import literal_eval
