@@ -97,10 +97,11 @@ col1, col2 = st.sidebar.columns(2)
 # button2 = col2.button('View Table')
 query = st.sidebar.text_input('Search Related Ideas', value='', key=None, type='default')
 process = st.sidebar.multiselect('Author',list(set(db['Author'].dropna().to_list())))
-module = st.sidebar.multiselect('Topic',['business', 'society', 'science', 'People', 'Process',
-       'Technology', 'tags', 'Entities', 'Wave', 'Ivy'])
+field = st.sidebar.multiselect('Field',['business', 'society', 'science'])
+component = st.sidebar.multiselect('Component', ['People', 'Process',
+       'Technology'])
 
-cols = module
+cols = field + component
 
 dfhat = db
 dfhat['Priority'] = dfhat['Priority'].apply(lambda x: 0 if isinstance(x, str) else x)
