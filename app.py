@@ -96,7 +96,7 @@ col1, col2 = st.sidebar.columns(2)
 # button = col1.button('Graph (Beta)')
 # button2 = col2.button('View Table')
 query = st.sidebar.text_input('Search Related Ideas', value='', key=None, type='default')
-process = st.sidebar.multiselect('Author',list(set(db['Author'].dropna().to_list())))
+# process = st.sidebar.multiselect('Author',list(set(db['Author'].dropna().to_list())))
 field = st.sidebar.multiselect('Field',['business', 'society', 'science'])
 component = st.sidebar.multiselect('Component', ['People', 'Process',
        'Technology'])
@@ -107,7 +107,7 @@ dfhat = db
 dfhat['Priority'] = dfhat['Priority'].apply(lambda x: 0 if isinstance(x, str) else x)
 if query != '':
     dfhat = get_similar_docs(query, dfhat, top_n=10)
-if query != '' or len(cols) != 0 or len(process) != 0:    
+if query != '' or len(cols) != 0:   
     if len(cols) != 0:
         for p in cols:
             dfhat[p] = dfhat[p].apply(lambda x: float(str(x).split('"')[-1]))
@@ -115,8 +115,6 @@ if query != '' or len(cols) != 0 or len(process) != 0:
     if query == '':
 
         dfhat.sort_values(by=cols + ['Priority'], ascending=False, inplace=True)
-    if len(process) != 0:
-        dfhat = dfhat[dfhat['Author'].isin(process)]
     if len(dfhat) == 0:
             st.write('No data found')
     for row in dfhat.iterrows():
@@ -124,7 +122,7 @@ if query != '' or len(cols) != 0 or len(process) != 0:
         author = row[1]['Author']
         expander_title = title + (' : ' + author if author != '' else '')
         with st.expander(expander_title):
-            names = [name for name, value in zip(['business', 'society', 'science', 'People', 'Process', 'Technology', 'tags', 'Entities', 'Wave', 'Ivy'], row[1][cols]) if int(value) == 1]
+            names = [name for name, value in zip(['business', 'society', 'science', 'People', 'Process', 'Technology'], row[1][cols]) if int(value) == 1]
             st.write(row[1]['Subtitle'])
             st.link_button('Read More', row[1]['Website'])
         # dfhat.drop(columns=['Unnamed: 0'],inplace=True)
