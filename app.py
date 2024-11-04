@@ -112,7 +112,6 @@ if query != '' or len(cols) != 0:
     if len(dfhat) == 0:
             st.write('No data found')
     for row in dfhat.iterrows():
-        print(row)
         title = row[1]['Title']
         author = row[1]['Author']
         expander_title = title + (' : ' + author if author != '' else '')
