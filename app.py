@@ -17,12 +17,6 @@ api_key = st.secrets["api_key"]
 
 st.set_page_config(layout="wide", page_title="SuperMind Design")
 
-@st.cache(allow_output_mutation=True)
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
 
 
 
@@ -112,12 +106,13 @@ if query != '' or len(cols) != 0:
         for p in cols:
             dfhat[p] = dfhat[p].apply(lambda x: float(str(x).split('"')[-1]))
             dfhat = dfhat[dfhat[p].isin([1,2])]
+            
     if query == '':
-
         dfhat.sort_values(by=cols + ['Priority'], ascending=False, inplace=True)
     if len(dfhat) == 0:
             st.write('No data found')
     for row in dfhat.iterrows():
+        print(row)
         title = row[1]['Title']
         author = row[1]['Author']
         expander_title = title + (' : ' + author if author != '' else '')
