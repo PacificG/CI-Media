@@ -14,7 +14,6 @@ api_key = st.secrets["api_key"]
 
 
 
-
 st.set_page_config(layout="wide", page_title="SuperMind Design")
 
 
@@ -104,8 +103,8 @@ if query != '':
 if query != '' or len(cols) != 0:   
     if len(cols) != 0:
         for p in cols:
-            dfhat[p] = dfhat[p].apply(lambda x: float(str(x).split('"')[-1]))
-            dfhat = dfhat[dfhat[p].isin([1,2])]
+            dfhat[p] = dfhat[p].apply(lambda x: 0 if isinstance(x, str) else x)
+            dfhat = dfhat[dfhat[p].isin([1])]
     dfhat = dfhat[dfhat['Title'].notna() & (dfhat['Title'] != '')]
     if query == '':
         dfhat.sort_values(by=cols + ['Priority'], ascending=False, inplace=True)
